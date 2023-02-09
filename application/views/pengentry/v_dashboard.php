@@ -112,23 +112,23 @@
 			var date = new Date();
 			var jam = date.getHours();
 			if (jam >= 0 && jam <= 10) {
-				$('.greeting').html('Selamat Pagi,  <?php echo $detail_user['nama_lengkap']; ?>');
+				$('.greeting').html('Selamat Pagi');
 				$('#pagi').show();
 				$('#siang').hide();
 				$('#malam').hide();
 
 			} else if (jam >= 11 && jam <= 14) {
-				$('.greeting').html('Selamat Siang,  <?php echo $detail_user['nama_lengkap']; ?>');
+				$('.greeting').html('Selamat Siang');
 				$('#pagi').hide();
 				$('#siang').show();
 				$('#malam').hide();
 			} else if (jam >= 15 && jam <= 18) {
-				$('.greeting').html('Selamat Sore,  <?php echo $detail_user['nama_lengkap']; ?> 👋🏼');
+				$('.greeting').html('Selamat Sore');
 				$('#pagi').hide();
 				$('#siang').show();
 				$('#malam').hide();
 			} else {
-				$('.greeting').html('Selamat Malam, <?php echo $detail_user['nama_lengkap']; ?> ');
+				$('.greeting').html('Selamat Malam');
 				$('#pagi').hide();
 				$('#siang').hide();
 				$('#malam').show();
