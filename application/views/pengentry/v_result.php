@@ -46,6 +46,8 @@
 				<?php $this->load->view('pengentry/_partials/navbar') ?>
 
 
+
+
 			</div>
 
 		</nav>
@@ -58,6 +60,8 @@
 						<div class="card-header ">
 							<h3 id="h1">Result</h3>
 
+
+
 							<!-- Div flash data -->
 							<div class="flash-data" data-flashdata="<?php echo $this->session->flashdata('message'); ?>"></div>
 
@@ -65,7 +69,7 @@
 						<div class="container-md containerku">
 							<?php
 
-							if ($result == null) { ?>
+							if ($result_1 == null || $result_2 == null) { ?>
 
 								<div class="text-center">
 									<div class="d-flex justify-content-center"><lottie-player src="https://assets6.lottiefiles.com/packages/lf20_agnejizn.json" mode="bounce" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player></div>
@@ -84,155 +88,219 @@
 									<table class="table table-striped align-items-center mt-3 mb-0" id="tbl_result">
 										<thead>
 											<tr>
-												<th class="text-uppercase text-xxs font-weight-bolder ">No</th>
-												<th class="text-uppercase text-xxs font-weight-bolder ">Tanggal Irms</th>
-												<th class="text-uppercase text-xxs font-weight-bolder  ps-2">Korban Irms</th>
-												<th class="text-uppercase text-xxs font-weight-bolder  ps-2">Cidera</th>
-												<th class="text-uppercase text-xxs font-weight-bolder  ps-2">No LP</th>
-												<th></th>
 
-												<th class="text-uppercase text-xxs font-weight-bolder ">No</th>
-												<th class="text-uppercase text-xxs font-weight-bolder ">Tanggal Dasi</th>
-												<th class="text-uppercase text-xxs font-weight-bolder  ps-2">Korban Dasi</th>
-												<th class="text-uppercase text-xxs font-weight-bolder  ps-2">Cidera</th>
-												<th class="text-uppercase text-xxs font-weight-bolder  ps-2">No LP</th>
+												<?php
+
+												$alpahbeth = range('A', 'Z');
+												$no = 1;
+
+												echo '<th class="text-uppercase text-xxs font-weight-bolder bg-primary text-white">No</th>';
+
+												// Header table 1
+												for ($i = 0; $i < $total_row_1; $i++) {
+
+													echo "<th class='text-uppercase text-xxs font-weight-bolder bg-primary text-white'>" . $result_1[1][$alpahbeth[$i]] . "</th>";
+												}
+
+
+												echo '<th class="text-uppercase text-xxs font-weight-bolder bg-primary "> </th>';
+
+
+												// Header table 2
+												for ($i = 0; $i < $total_row_2; $i++) {
+
+													echo "<th class='text-uppercase text-xxs font-weight-bolder bg-primary text-white'>" . $result_2[1][$alpahbeth[$i]] . "</th>";
+												}
+
+
+												?>
 
 											</tr>
 										</thead>
 
 										<tbody>
 
+
+
+
 											<?php $no = 1; ?>
-											<?php $no_dasi = 1; ?>
-
-
 											<?php
 
-											$unique_names = array();
-											$duplicate_names = array();
-											$counter = 1;
-											$unqiue_no_lp = array();
-											$duplicate_no_lp = array();
-											$counter_no_lp = 1;
+											$not_match_1 = array();
+											$not_match_2 = array();
+
+
+											foreach ($result_1 as $row) {
+												$founded = false;
+
+												foreach ($result_2 as $row2) {
+													if ($row[$coll_unique_1] == $row2[$coll_unique_2]) {
+														$founded = true;
+														break;
+													}
+												}
+
+												if (!$founded) {
+													$not_match_1[] = $row;
+												}
+											}
+
+											foreach ($result_2 as $row2) {
+												$founded = false;
+
+												foreach ($result_1 as $row) {
+													if ($row[$coll_unique_1] == $row2[$coll_unique_2]) {
+														$founded = true;
+														break;
+													}
+												}
+
+												if (!$founded) {
+													$not_match_2[] = $row2;
+												}
+											}
 
 
 
-											foreach ($result  as $r) { ?>
-												<tr>
-
-													<?php if ($r->irms_tanggal == null) { ?>
-														<td class="bg-danger text-white "><?= $no++; ?></td>
-													<?php } else { ?>
-														<td><?= $no++; ?></td>
-													<?php } ?>
-													<?php if ($r->irms_tanggal == null) { ?>
-														<td class="bg-warning "></td>
-													<?php } else { ?>
-														<td><?= $r->irms_tanggal; ?></td>
-													<?php } ?>
-
-													<?php if ($r->irms_nama_korban == null) { ?>
-														<td class="bg-warning text-white ">Tidak ada data</td>
-													<?php } else { ?>
-														<td><?= $r->irms_nama_korban; ?></td>
-													<?php } ?>
-
-													<?php if ($r->irms_cidera == null) { ?>
-														<td class="bg-warning "></td>
-													<?php } else { ?>
-														<td><?= $r->irms_cidera; ?></td>
-													<?php } ?>
-
-													<?php if ($r->irms_no_lp == null) { ?>
-														<td class="bg-warning "></td>
-													<?php } else { ?>
-														<td><?= $r->irms_no_lp; ?></td>
-													<?php } ?>
-
-													<?php if ($r->irms_no_lp == null) { ?>
-														<td class="bg-danger "></td>
-													<?php } else { ?>
-														<td></td>
-													<?php } ?>
-
-													<!-- Dasi -->
-
-													<?php if ($r->dasi_no_lp == null) { ?>
-														<td class="bg-danger text-white "><?= $no_dasi++; ?></td>
-													<?php } else { ?>
-														<td><?= $no_dasi++; ?></td>
-													<?php } ?>
-
-													<?php if ($r->dasi_tanggal == null) { ?>
-														<td class="bg-warning "></td>
-													<?php } else { ?>
-														<td><?= $r->dasi_tanggal; ?></td>
-													<?php } ?>
-
-													<?php if ($r->dasi_nama_korban == null) { ?>
-														<td class="bg-warning text-white ">Tidak ada data</td>
-													<?php } else { ?>
-														<td><?= $r->dasi_nama_korban; ?></td>
-													<?php } ?>
-
-													<!-- <?php
-															$name = trim(preg_replace("/\([^)]+\)/", "", $r->dasi_nama_korban));
-															$soundex = soundex($name);
-
-															if (in_array($soundex, $unique_names)) {
-																$duplicate_names[] = $name;
-															} else {
-																$unique_names[] = $soundex;
-															}
-															?>
-													<?php if (in_array($name, $duplicate_names)) {
-													?>
-														<td class="bg-warning text-white "><?= $name . '(Duplikat)'; ?></td>
-													<?php } else { ?>
-														<td><?= $r->dasi_nama_korban; ?></td>
+											foreach ($result_1 as $row) {
+												foreach ($result_2 as $row2) {
+													if ($row[$coll_unique_1] == $row2[$coll_unique_2]) {
+														echo "<tr>";
+														echo "<td>" . $no++ . "</td>";
+														for ($i = 0; $i < $total_row_1; $i++) {
+															echo "<td>" . $row[$alpahbeth[$i]] . "</td>";
 														}
-													<?php } ?>
-
-													<?php
-													$counter++;
-
-
-													?> -->
-
-
-
-
-
-
-													<?php if ($r->dasi_cidera == null) { ?>
-														<td class="bg-warning text-white "></td>
-													<?php } else { ?>
-														<td><?= $r->dasi_cidera; ?></td>
-													<?php } ?>
-
-
-
-													<?php if ($r->dasi_no_lp == null) { ?>
-														<td class="bg-warning text-white "></td>
-													<?php } else { ?>
-														<td><?= $r->dasi_no_lp; ?></td>
-													<?php } ?>
-
-
-												</tr>
-
-
-
-											<?php } ?>
-
+														echo "<td ></td>";
+														for ($i = 0; $i < $total_row_2; $i++) {
+															echo "<td>" . $row2[$alpahbeth[$i]] . "</td>";
+														}
+														echo "</tr>";
+													}
+												}
+											}
+											?>
 
 										</tbody>
 									</table>
 
-									<div class="mt-4 w-100">
-										<a class="btn  mt-2 btn-danger w-100" href="<?= base_url('pengentry/Coklit/delete/' . $irms_id . '/' . $dasi_id) ?>">Hapus</a>
-									</div>
 
+
+
+
+
+								</div>
+
+
+								<button class="btn btn-warning btn-sm w-100 mt-2" id="btn_detail">Lihat Detail <i class="fas fa-angle-double-right"></i></button>
+
+
+
+
+								<div class="table-responsive   tb-iwkl p-0" id="tbl_not_found_1">
+									<table class="table table-striped align-items-center mt-3 mb-0" id="tbl_result">
+										<thead>
+											<tr>
+
+												<?php
+
+												$alpahbeth = range('A', 'Z');
+												$no = 1;
+
+												echo '<th class="text-uppercase text-xxs font-weight-bolder bg-primary text-white">No</th>';
+
+												// Header table 1
+												for ($i = 0; $i < $total_row_1; $i++) {
+
+													echo "<th class='text-uppercase text-xxs font-weight-bolder bg-primary text-white'>" . $result_1[1][$alpahbeth[$i]] . "</th>";
+												}
+
+
+
+
+
+												?>
+
+											</tr>
+										</thead>
+
+										<tbody>
+
+
+
+
+											<?php $no = 1; ?>
+											<?php
+
+
+
+											foreach ($not_match_1 as $row) {
+												echo "<tr>";
+												echo "<td>" . $no++ . "</td>";
+												for ($i = 0; $i < $total_row_1; $i++) {
+													echo "<td>" . $row[$alpahbeth[$i]] . "</td>";
+												}
+												echo "</tr>";
+											}
+
+
+
+											?>
+
+										</tbody>
+									</table>
+								</div>
+
+
+								<div class="table-responsive  tb-iwkl p-0" id="tbl_not_found_2">
+									<table class="table table-striped align-items-center mt-3 mb-0" id="tbl_result">
+										<thead>
+											<tr>
+
+												<?php
+
+												$alpahbeth = range('A', 'Z');
+												$no = 1;
+
+												echo '<th class="text-uppercase text-xxs font-weight-bolder bg-primary text-white">No</th>';
+
+
+												// Header table 2
+												for ($i = 0; $i < $total_row_2; $i++) {
+
+													echo "<th class='text-uppercase text-xxs font-weight-bolder bg-primary text-white'>" . $result_2[1][$alpahbeth[$i]] . "</th>";
+												}
+
+
+												?>
+
+											</tr>
+										</thead>
+
+										<tbody>
+
+
+
+
+											<?php $no = 1; ?>
+											<?php
+
+
+
+											foreach ($not_match_2 as $row2) {
+												echo "<tr>";
+												echo "<td>" . $no++ . "</td>";
+												for ($i = 0; $i < $total_row_2; $i++) {
+													echo "<td>" . $row2[$alpahbeth[$i]] . "</td>";
+												}
+												echo "</tr>";
+											}
+
+
+
+											?>
+
+										</tbody>
+									</table>
 								</div>
 							<?php }
 
@@ -253,29 +321,16 @@
 
 										<tr>
 											<td colspan="3" class="bg-warning text-white">
-												<h6 class="text-white">Total IRMS MD : <?= $total_md_irms; ?></h6>
+												<h6 class="text-white">Total Data Table 1: <?= $total_table_1; ?>
 											</td>
 
 
 											<td></td>
 											<td></td>
 											<td colspan="3" class="bg-warning text-white">
-												<h6 class="text-white">Total DASI MD: <?= $total_md_dasi; ?></h6>
+												<h6 class="text-white">Total Data Table 2: <?= $total_table_2; ?></h6>
 											</td>
 
-
-										</tr>
-										<tr>
-
-											<td colspan="3" class="bg-primary text-white">
-												<h6 class="text-white">Total IRMS LL: <?= $total_ll_irms; ?></h6>
-											</td>
-
-											<td></td>
-											<td></td>
-											<td colspan="3" class="bg-primary text-white">
-												<h6 class="text-white">Total DASI LL: <?= $total_ll_dasi; ?></h6>
-											</td>
 
 										</tr>
 
@@ -478,6 +533,19 @@
 			});
 
 
+		});
+	</script>
+
+	<script>
+		$(document).ready(function() {
+			$('#tbl_not_found_1').hide();
+			$('#tbl_not_found_2').hide();
+
+
+			$('#btn_detail').click(function() {
+				$('#tbl_not_found_1').show();
+				$('#tbl_not_found_2').show();
+			});
 		});
 	</script>
 

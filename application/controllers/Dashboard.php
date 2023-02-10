@@ -17,7 +17,20 @@ class Dashboard extends CI_Controller
 	}
 	public function index()
 	{
+		$api = "https://api.quotable.io/random?tags=technology,famous-quotes";
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $api);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		$output = curl_exec($ch);
+		curl_close($ch);
+		$result = json_decode($output, true);
 
-		$this->load->view('pengentry/v_dashboard');
+		$data['quote'] = $result['content'];
+		$data['author'] = $result['author'];
+
+
+
+
+		$this->load->view('pengentry/v_dashboard', $data);
 	}
 }

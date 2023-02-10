@@ -1,9 +1,9 @@
 <aside class="sidenav sidenavbar bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
 	<div class="sidenav-header">
 		<i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-		<a class="navbar-brand m-0" href="<?php echo base_url('pengentry') ?>">
+		<a class="navbar-brand m-0" href="<?php echo base_url('dashboard') ?>">
 			<img src="<?php echo base_url(); ?>assets/assets/img/logo_jr.png" class="navbar-brand-img h-100" alt="main_logo">
-			<span class="ms-1 font-weight-bold">COKLIT-JR</span>
+			<span class="ms-1 font-weight-bold">Excel-Join</span>
 		</a>
 	</div>
 	<hr class="horizontal dark mt-0">
@@ -13,7 +13,7 @@
 			</li>
 
 			<li class="nav-item ">
-				<a class="nav-link  <?php echo $this->uri->segment(2) == 'dashboard' ? 'active' : '' ?>" href="<?php echo site_url('pengentry/dashboard') ?>">
+				<a class="nav-link  <?php echo $this->uri->segment(2) == 'dashboard' ? 'active' : '' ?>" href="<?php echo site_url('dashboard') ?>">
 					<div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
 						<i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
 					</div>
@@ -22,7 +22,7 @@
 			</li>
 
 			<li class="nav-item  ">
-				<a class="nav-link <?php echo $this->uri->segment(2) == 'Coklit' ? 'active' : '' ?> " href="<?php echo site_url('pengentry/Coklit/insert_data') ?>">
+				<a class="nav-link <?php echo $this->uri->segment(2) == 'Excel' ? 'active' : '' ?> " href="<?php echo site_url('ExcelJoin/insert_data') ?>">
 					<div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
 						<i class="fa fa-book text-warning text-sm opacity-10"></i>
 					</div>

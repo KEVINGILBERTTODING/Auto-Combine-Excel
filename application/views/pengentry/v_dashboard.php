@@ -1,17 +1,3 @@
-<!--
-=========================================================
-* Argon Dashboard 2 - v2.0.4
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://www.creative-tim.com/license)
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
--->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -45,8 +31,12 @@
 		<!-- MENU PROPOSAL -->
 		<div class="container-fluid py-4">
 			<div class="row">
-				<h5 class="font-weight-bolder text-white greeting mb-4">
+				<h5 class="font-weight-bolder text-white greeting mb-2">
+
 				</h5>
+
+				<h6 class="font-weight-light text-white"><?= $quote; ?></h6>
+				<p class="font-weight-bolder text-white font-italic mb-4">"<?= $author; ?>"</p>
 
 				<div class="flash-data" data-flashdata="<?php echo $this->session->flashdata('message'); ?>"></div>
 
@@ -54,14 +44,14 @@
 
 				<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
 					<div class="card">
-						<a class="card-block stretched-link text-decoration-none" href="<?php echo base_url() ?>pengentry/Coklit/insert_data">
+						<a class="card-block stretched-link text-decoration-none" href="<?php echo base_url() ?>ExcelJoin/insert_data">
 							<div class="card-body p-3">
 								<div class="row">
 									<div class="col-8">
 										<div class="numbers">
-											<p class="text-sm mb-0 text-uppercase font-weight-bold">Entry Data Coklit</p>
+											<p class="text-sm mb-0 text-uppercase font-weight-bold">Upload Excel File</p>
 											<h5 class="font-weight-bolder">
-												IRMS & DASI
+												2 Tables
 
 											</h5>
 											<p class="mb-0">
@@ -112,23 +102,23 @@
 			var date = new Date();
 			var jam = date.getHours();
 			if (jam >= 0 && jam <= 10) {
-				$('.greeting').html('Selamat Pagi');
+				$('.greeting').html('Good Morning, Have a wonderful day!');
 				$('#pagi').show();
 				$('#siang').hide();
 				$('#malam').hide();
 
 			} else if (jam >= 11 && jam <= 14) {
-				$('.greeting').html('Selamat Siang');
+				$('.greeting').html('Good Afternoon, Have a nice day!');
 				$('#pagi').hide();
 				$('#siang').show();
 				$('#malam').hide();
 			} else if (jam >= 15 && jam <= 18) {
-				$('.greeting').html('Selamat Sore');
+				$('.greeting').html('Good Afternoon, Have a sweet Day!');
 				$('#pagi').hide();
 				$('#siang').show();
 				$('#malam').hide();
 			} else {
-				$('.greeting').html('Selamat Malam');
+				$('.greeting').html('Good Evening, Have a amazing night!');
 				$('#pagi').hide();
 				$('#siang').hide();
 				$('#malam').show();
