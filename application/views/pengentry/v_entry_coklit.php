@@ -66,7 +66,6 @@
 							</div>
 						</div>
 						<div class="container-md containerku">
-							<!-- <span class="text-danger text-sm fst-italic">*Jika ada perubahan format excel, silahkan lakukan pengaturan terlebih dahulu.</span> -->
 							<form action="<?= base_url('ExcelJoin/import_excel'); ?>" method="post" enctype="multipart/form-data">
 
 								<div class="row">
@@ -107,7 +106,7 @@
 								<div>
 									<button class='btn btn-primary w-100' id="btn_submit" type="submit">
 										<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-										Import
+										Join
 									</button>
 								</div>
 							</form>

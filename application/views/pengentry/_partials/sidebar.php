@@ -42,7 +42,7 @@
 
 
 			<li class="nav-item  ">
-				<a class="nav-link <?php echo $this->uri->segment(2) == 'insert_data' ? 'active' : '' ?> " href="<?php echo site_url('ExcelJoin/insert_data') ?>">
+				<a class="nav-link <?php echo $this->uri->segment(2) == 'instructions' ? 'active' : '' ?> " href="<?php echo site_url('ExcelJoin/instructions') ?>">
 					<div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
 						<i class="fa fa-book text-primary text-sm opacity-10"></i>
 					</div>

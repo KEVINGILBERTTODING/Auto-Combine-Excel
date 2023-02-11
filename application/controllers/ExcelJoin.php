@@ -140,4 +140,9 @@ class ExcelJoin extends CI_Controller
 	{
 		$this->load->view('pengentry/v_introduction');
 	}
+
+	public function instructions()
+	{
+		$this->load->view('pengentry/v_instructions');
+	}
 }
