@@ -56,7 +56,7 @@
 				<div class="col-12">
 					<div class="card mb-4 ">
 						<div class="card-header ">
-							<h3 id="h1">Automatically Join Excel</h3>
+							<h3 id="h1">Auto Combine Excel</h3>
 							<!-- Div flash data -->
 							<div class="flash-data" data-flashdata="<?php echo $this->session->flashdata('message'); ?>"></div>
 
