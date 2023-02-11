@@ -12,9 +12,6 @@ class ExcelJoin extends CI_Controller
 		parent::__construct();
 		$this->load->library(array('excel', 'session'));
 
-
-		// $this->load->model('coklit/Coklit_model', 'Coklit_model');
-		// $this->load->model('coklit/Excel_model', 'Excel_model');
 		$this->load->library('form_validation');
 		$this->load->helper('form');
 		$this->load->helper('url');
@@ -26,26 +23,12 @@ class ExcelJoin extends CI_Controller
 
 		$this->load->view('pengentry/v_entry_coklit');
 	}
-	public function index($data)
-	{
-
-		echo "<pre>";
-		print_r($data);
 
 
-		// $this->load->view('pengentry/iw/v_result');
-	}
 
-	public function testData($data)
-	{
-		print_r($data);
-	}
 
 	public function import_excel()
 	{
-
-
-
 
 
 		// Table 1
@@ -121,7 +104,7 @@ class ExcelJoin extends CI_Controller
 
 
 
-		$this->session->set_flashdata('message', 'Berhasil Menggabungkan Data');
+		$this->session->set_flashdata('message', 'Combine Excel Success');
 		$this->load->view('pengentry/v_result', $data);
 	}
 
@@ -152,38 +135,9 @@ class ExcelJoin extends CI_Controller
 		return $abjad;
 	}
 
-	// public function delete($irms_id, $dasi_id)
-	// {
-	// 	$this->Coklit_model->delete('irms', 'irms_id', $irms_id);
-	// 	$this->Coklit_model->delete('dasi', 'dasi_id', $dasi_id);
-	// 	$this->session->set_flashdata('message', "Berhasil menghapus data");
-	// 	redirect('pengentry/Coklit/insert_data');
-	// }
+	public function introduction()
 
-	// public function update_setting()
-	// {
-	// 	$data = array(
-	// 		'row_start' => $this->input->post('row_start'),
-	// 		'col_tanggal' => $this->input->post('col_tanggal'),
-	// 		'col_korban' => $this->input->post('col_korban'),
-	// 		'col_cidera' => $this->input->post('col_cidera'),
-	// 		'col_no_lp' => $this->input->post('col_no_lp')
-
-	// 	);
-
-	// 	$this->Excel_model->update_setting($this->input->post('table'), $data, $this->input->post('id'));
-	// 	$this->session->set_flashdata('message', "Berhasil mengubah setting");
-	// 	redirect('pengentry/Coklit/insert_data');
-	// }
-
-
-
-
-
-	// public function get_explode_no_lp($no_lp)
-	// {
-	// 	$no_lp = explode('/', $no_lp);
-	// 	$no_lp = $no_lp[2];
-	// 	return $no_lp;
-	// }
+	{
+		$this->load->view('pengentry/v_introduction');
+	}
 }

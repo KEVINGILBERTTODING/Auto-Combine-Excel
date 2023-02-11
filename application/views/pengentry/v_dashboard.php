@@ -31,14 +31,16 @@
 		<!-- MENU PROPOSAL -->
 		<div class="container-fluid py-4">
 			<div class="row">
-				<h5 class="font-weight-bolder text-white greeting mb-2">
+				<h6 class="font-weight-light  text-white greeting mb-2">
 
-				</h5>
+				</h6>
 
-				<h6 class="font-weight-light text-white"><?= $quote; ?></h6>
-				<p class="font-weight-bolder text-white font-italic mb-4">"<?= $author; ?>"</p>
+				<h5 class=" text-white">Welcome to ACE, where data merging has never been easier.</h5>
 
-				<div class="flash-data" data-flashdata="<?php echo $this->session->flashdata('message'); ?>"></div>
+
+				<!-- QOUTES -->
+				<!-- <h6 class="font-weight-light text-white"><?= $quote; ?></h6>
+				<p class="font-weight-bolder text-white font-italic mb-4">"<?= $author; ?>"</p> -->
 
 
 

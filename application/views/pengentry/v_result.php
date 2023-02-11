@@ -325,7 +325,7 @@
 					<div class="modal-dialog modal-dialog-scrollable">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h5 class="modal-title" id="exampleModalLabel">Pemberitahuan</h5>
+								<h5 class="modal-title" id="exampleModalLabel">Warning</h5>
 								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 							</div>
 
@@ -337,8 +337,8 @@
 										<div class="col">
 
 											<br>
-											<h5>Harap periksa kembali file yang anda upload</h5>
-											<p>Seperti format file dan ukuran file</p>
+											<h5>Please check your file again!</h5>
+											<p class="text-secondary">Please check your file again, because your file doesn't match with the table</p>
 
 										</div>
 									</div>

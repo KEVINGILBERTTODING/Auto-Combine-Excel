@@ -8,7 +8,7 @@
 
 					Copyright <script>
 						document.write(new Date().getFullYear())
-					</script> <b><a href="https://www.jasaraharja.co.id">Kevin Gilbert Toding</a><b>
+					</script> <b><a href="#">Kevin Gilbert Toding</a><b>
 				</p>
 
 			</div>

@@ -74,7 +74,7 @@
 										<div class="row">
 											<h4>Table 1</h4>
 											<div class="col">
-												<label for="Col">Col Unique<span class="text-danger">*</span></label>
+												<label for="Col">Primary Key<span class="text-danger">*</span></label>
 												<div class="form-group w-20">
 													<input class="form-control " type="number" id="col" name="col_unique_1" value="" required>
 												</div>
@@ -82,7 +82,7 @@
 
 										</div>
 										<div class="form-group" id="form_input_file">
-											<h6>File Table 1</h6>
+											<h6>File Table 1<span class="text-danger">*</span></h6>
 											<input class="form-control " type="file" id="input_file" name="fileExcel1" accept=".xls, .xlsx" required>
 										</div>
 									</div>
@@ -91,7 +91,7 @@
 										<div class="row">
 											<h4>Table 2</h4>
 											<div class="col">
-												<label for="Col">Col Unique<span class="text-danger">*</span></label>
+												<label for="Col">Primary Key<span class="text-danger">*</span></label>
 												<div class="form-group w-20">
 													<input class="form-control " type="number" id="col" name="col_unique_2" value="" required>
 												</div>
@@ -99,7 +99,7 @@
 
 										</div>
 										<div class="form-group" id="form_input_file">
-											<h6>File Table 2</h6>
+											<h6>File Table 2<span class="text-danger">*</span></h6>
 											<input class="form-control " type="file" id="input_file" name="fileExcel2" accept=".xls, .xlsx" required>
 										</div>
 									</div>
