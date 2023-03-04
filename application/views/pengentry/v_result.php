@@ -66,7 +66,19 @@
 							<div class="flash-data" data-flashdata="<?php echo $this->session->flashdata('message'); ?>"></div>
 
 						</div>
+
+						<?php
+						$array1 = http_build_query(array('result_1' => $result_1));
+						$array2 = http_build_query(array('result_2' => $result_2));
+						var_dump($array1);
+
+						?>
+
+
 						<div class="container-md containerku">
+							<div class="d-flex justify-content-end">
+								<a href="<?= $url; ?>" class="btn btn-primary" target="_blank">Export to Excel</a>
+							</div>
 							<?php
 
 							if ($result_1 == null || $result_2 == null) { ?>

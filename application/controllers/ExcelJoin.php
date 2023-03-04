@@ -145,4 +145,11 @@ class ExcelJoin extends CI_Controller
 	{
 		$this->load->view('pengentry/v_instructions');
 	}
+
+
+	public function export($data1, $data2)
+	{
+
+		var_dump($data1);
+	}
 }
