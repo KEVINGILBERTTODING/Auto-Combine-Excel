@@ -192,6 +192,57 @@ class ExcelJoin extends CI_Controller
 			]
 
 		];
+
+
+		$style_empty = [
+			'font' => [
+				'bold' => true,
+				'color' => ['rgb' => 'FFFFFF']
+
+			], // Set font nya jadi bold
+			'alignment' => [
+				'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, // Set text jadi ditengah secara horizontal (center)
+				'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER // Set text jadi di tengah secara vertical (middle)
+			],
+			'borders' => [
+				'top' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN], // Set border top dengan garis tipis
+				'right' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN],  // Set border right dengan garis tipis
+				'bottom' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN], // Set border bottom dengan garis tipis
+				'left' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN] // Set border left dengan garis tipis
+			],
+			'fill' => [
+				'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID, // Set fill type sebagai solid fill
+				'startColor' => [
+					'argb' => 'FB6340' // Set nilai argb sebagai kode warna (contoh: warna abu-abu)
+				]
+			]
+
+		];
+
+		$style_empty_2 = [
+			'font' => [
+				'bold' => true,
+				'color' => ['rgb' => 'FFFFFF']
+
+			], // Set font nya jadi bold
+			'alignment' => [
+				'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, // Set text jadi ditengah secara horizontal (center)
+				'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER // Set text jadi di tengah secara vertical (middle)
+			],
+			'borders' => [
+				'top' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN], // Set border top dengan garis tipis
+				'right' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN],  // Set border right dengan garis tipis
+				'bottom' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN], // Set border bottom dengan garis tipis
+				'left' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN] // Set border left dengan garis tipis
+			],
+			'fill' => [
+				'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID, // Set fill type sebagai solid fill
+				'startColor' => [
+					'argb' => 'F23D30'
+				]
+			]
+
+		];
 		// Buat sebuah variabel untuk menampung pengaturan style dari isi tabel
 		$style_row = [
 			'alignment' => [
@@ -222,14 +273,61 @@ class ExcelJoin extends CI_Controller
 			$sheet->getStyle($alpahbeth[$total_row_1 + $noo] . $no)->applyFromArray($style_col);
 		}
 
+
+
+		$not_match_1 = [];
+		$not_match_2 = [];
+		$match_1 = [];
+		$match_2 = [];
+		// Validation if data is not matching
+		foreach ($row_1 as $rww1) {
+			$founded = false;
+			foreach ($row_2 as $rww2) {
+				if ($rww1[$unique_col_1] == $rww2[$unique_col_2]) {
+					$founded = true;
+					break;
+				}
+			}
+			if (!$founded) {
+				$not_match_1[] = $rww1;
+			} else {
+				$match_1[] = $rww1;
+			}
+		}
+
+		foreach ($row_2 as $rww2) {
+			$founded = false;
+			foreach ($row_1 as $rww1) {
+				if ($rww2[$unique_col_2] == $rww1[$unique_col_1]) {
+					$founded = true;
+					break;
+				}
+			}
+
+			if (!$founded) {
+				$not_match_2[] = $rww2;
+			} else {
+				$match_2[] = $rww2;
+			}
+		}
+
+
+
+
+
+
 		$numrow = 2;
 		$no3 = 1;
 		$no4 = 1;
+
+
 
 		foreach ($row_1 as $rw1) {
 			foreach ($row_2 as $rw_2) {
 
 				if ($rw1[$unique_col_1] == $rw_2[$unique_col_2]) {
+
+
 					for ($i = 0; $i < $total_row_1; $i++, $no3++) {
 						$sheet->setCellValue('A' . $numrow, $numrow - 1)->getStyle('A' . $numrow)->applyFromArray($style_row)->getAlignment()->setHorizontal('center');
 						$cell = $alpahbeth[$no3] . $numrow;
@@ -249,6 +347,43 @@ class ExcelJoin extends CI_Controller
 				}
 			}
 		}
+
+
+
+		// merged cell
+		$sheet->mergeCells('A' . (count($match_1) + 3) . ':' . $alpahbeth[$total_row_1 + $total_row_2] . (count($match_1) + 3))->setCellValue('A' . (count($match_1) + 3), 'Data Not Match')->getStyle('A' . (count($match_1) + 3))->applyFromArray($style_empty)->getAlignment()->setHorizontal('center');
+		$sheet->mergeCells('A' . (count($match_1) + 5) . ':' . $alpahbeth[$total_row_1 + $total_row_2] . (count($match_1) + 5))->setCellValue('A' . (count($match_1) + 5), 'Table 1')->getStyle('A' . (count($match_1) + 5))->applyFromArray($style_empty_2)->getAlignment()->setHorizontal('center');
+
+		$numrow2 = 1;
+		$numrow3 = 2;
+		foreach ($not_match_1 as $nm1) {
+			for ($i = 0; $i < count($nm1); $i++) {
+
+				$cell3 = $alpahbeth[$i + 1] . count($match_1) + $numrow2 + 6;
+				$sheet->setCellValue($cell3, $nm1[$alpahbeth[$i]]);
+				$sheet->getStyle($cell3)->applyFromArray($style_row);
+			}
+			$numrow2++;
+		}
+
+		$sheet->mergeCells('A' . (count($match_1) + count($not_match_1)  + $numrow3 + 6) . ':' . $alpahbeth[$total_row_1 + $total_row_2] . (count($match_1) + count($not_match_1)  + $numrow3 + 6))->setCellValue('A' . (count($match_1) + count($not_match_1)  + $numrow3 + 6), 'Table 2')->getStyle('A' . (count($match_1) + count($not_match_1)  + $numrow3 + 6))->applyFromArray($style_empty_2)->getAlignment()->setHorizontal('center');
+
+
+		$numrow3 = 1;
+		foreach ($not_match_2 as $nm2) {
+			for ($i = 0; $i < count($nm2); $i++) {
+
+				$cell3 = $alpahbeth[$i + 1] . count($match_1) + count($not_match_1)  + $numrow3 + 9;
+				$sheet->setCellValue($cell3, $nm2[$alpahbeth[$i]]);
+				$sheet->getStyle($cell3)->applyFromArray($style_row);
+			}
+			$numrow3++;
+		}
+
+
+
+
+
 
 
 
