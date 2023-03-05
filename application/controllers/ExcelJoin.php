@@ -219,12 +219,13 @@ class ExcelJoin extends CI_Controller
 
 		];
 
+		// Style untuk data empty
 		$style_empty_2 = [
 			'font' => [
 				'bold' => true,
 				'color' => ['rgb' => 'FFFFFF']
 
-			], // Set font nya jadi bold
+			],
 			'alignment' => [
 				'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, // Set text jadi ditengah secara horizontal (center)
 				'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER // Set text jadi di tengah secara vertical (middle)
@@ -279,6 +280,8 @@ class ExcelJoin extends CI_Controller
 		$not_match_2 = [];
 		$match_1 = [];
 		$match_2 = [];
+
+
 		// Validation if data is not matching
 		foreach ($row_1 as $rww1) {
 			$founded = false;
@@ -311,11 +314,7 @@ class ExcelJoin extends CI_Controller
 			}
 		}
 
-
-
-
-
-
+		// Set value
 		$numrow = 2;
 		$no3 = 1;
 		$no4 = 1;
@@ -333,6 +332,7 @@ class ExcelJoin extends CI_Controller
 						$cell = $alpahbeth[$no3] . $numrow;
 						$sheet->setCellValue($cell, $rw1[$alpahbeth[$i]]);
 						$sheet->getStyle($cell)->applyFromArray($style_row);
+						// $sheet->getStyle($alpahbeth[$unique_col_1] . $numrow)->applyFromArray($style_row);
 					}
 
 					for ($i = 0; $i < $total_row_2; $i++, $no4++) {
@@ -342,7 +342,7 @@ class ExcelJoin extends CI_Controller
 						$sheet->getStyle($cell2)->applyFromArray($style_row);
 					}
 					$no4 = 1;
-					$no3 = 1; // reset nomor kolom pada file excel menjadi 0
+					$no3 = 1;
 					$numrow++; // menambah nomor baris untuk data berikutnya
 				}
 			}
@@ -379,11 +379,6 @@ class ExcelJoin extends CI_Controller
 			}
 			$numrow3++;
 		}
-
-
-
-
-
 
 
 
