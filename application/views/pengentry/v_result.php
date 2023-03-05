@@ -66,7 +66,40 @@
 							<div class="flash-data" data-flashdata="<?php echo $this->session->flashdata('message'); ?>"></div>
 
 						</div>
+
+						<?php
+						$query_string = http_build_query($result_1);
+						$query_string2 = http_build_query($result_2);
+
+
+
+						$count = count(array_filter($result_1[1], function ($value) {
+							return $value !== null;
+						}));
+
+						$count2 = count(array_filter($result_2[1], function ($value) {
+							return $value !== null;
+						}));
+
+						// var_dump($data);
+
+						?>
+
+
 						<div class="container-md containerku">
+							<div class="d-flex justify-content-end">
+								<form action="<?= base_url('ExcelJoin/export'); ?>" method="post" target="_blank">
+									<input type="text" name="data" value="<?= $query_string; ?>" hidden>
+									<input type="text" name="total_row_1" value="<?= $count; ?>" hidden>
+									<input type="text" name="data2" value="<?= $query_string2; ?>" hidden>
+									<input type="text" name="total_row_2" value="<?= $count2; ?>" hidden>
+									<input type="text" name="col_unique_1" value="<?= $coll_unique_1; ?>" hidden>
+									<input type="text" name="col_unique_2" value="<?= $coll_unique_2; ?>" hidden>
+
+									<button type="submit" class="btn btn-primary">Export to .xlsx</button>
+								</form>
+
+							</div>
 							<?php
 
 							if ($result_1 == null || $result_2 == null) { ?>
@@ -76,8 +109,8 @@
 								</div>
 
 								<div class='text-warning text-center mt-3'>
-									<h5>Data tidak ditemukan!</h5>
-									<p>Maaf, data yang anda cari tidak ditemukan. Silahkan coba lagi.</p>
+									<h5>Sorry data not found</h5>
+									<p>Please check your file again</p>
 								</div>
 								<div class="text-center ">
 									<a class="btn btn-primary d-flex justify-content-center w-100" href="<?= base_url('pengentry/Coklit/insert_data') ?>">Kembali</a>

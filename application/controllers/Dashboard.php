@@ -9,8 +9,6 @@ class Dashboard extends CI_Controller
 	{
 		parent::__construct();
 
-
-		$this->load->model('user/User_model', 'User_model');
 		$this->load->library('form_validation');
 		$this->load->helper('form');
 		$this->load->helper('url');

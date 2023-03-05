@@ -1,6 +1,10 @@
 <?php
 
 use FontLib\Table\Type\post;
+// Include librari PhpSpreadsheet
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
@@ -11,6 +15,7 @@ class ExcelJoin extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->library(array('excel', 'session'));
+		date_default_timezone_set('Asia/Jakarta');
 
 		$this->load->library('form_validation');
 		$this->load->helper('form');
@@ -144,5 +149,256 @@ class ExcelJoin extends CI_Controller
 	public function instructions()
 	{
 		$this->load->view('pengentry/v_instructions');
+	}
+
+
+	public function export()
+	{
+
+		$alpahbeth = range('A', 'Z');
+		$total_row_1 = $this->input->post('total_row_1');
+		$row_1 = $this->parse_str($this->input->post('data'));
+		$total_row_2 = $this->input->post('total_row_2');
+		$row_2 = $this->parse_str($this->input->post('data2'));
+		$unique_col_1 = $this->input->post('col_unique_1');
+		$unique_col_2 = $this->input->post('col_unique_2');
+
+
+
+		$spreadsheet = new Spreadsheet();
+		$sheet = $spreadsheet->getActiveSheet();
+		// Buat sebuah variabel untuk menampung pengaturan style dari header tabel
+		$style_col = [
+			'font' => [
+				'bold' => true,
+				'color' => ['rgb' => 'FFFFFF']
+
+			], // Set font nya jadi bold
+			'alignment' => [
+				'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, // Set text jadi ditengah secara horizontal (center)
+				'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER // Set text jadi di tengah secara vertical (middle)
+			],
+			'borders' => [
+				'top' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN], // Set border top dengan garis tipis
+				'right' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN],  // Set border right dengan garis tipis
+				'bottom' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN], // Set border bottom dengan garis tipis
+				'left' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN] // Set border left dengan garis tipis
+			],
+			'fill' => [
+				'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID, // Set fill type sebagai solid fill
+				'startColor' => [
+					'argb' => '217346' // Set nilai argb sebagai kode warna (contoh: warna abu-abu)
+				]
+			]
+
+		];
+
+
+		$style_empty = [
+			'font' => [
+				'bold' => true,
+				'color' => ['rgb' => 'FFFFFF']
+
+			], // Set font nya jadi bold
+			'alignment' => [
+				'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, // Set text jadi ditengah secara horizontal (center)
+				'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER // Set text jadi di tengah secara vertical (middle)
+			],
+			'borders' => [
+				'top' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN], // Set border top dengan garis tipis
+				'right' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN],  // Set border right dengan garis tipis
+				'bottom' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN], // Set border bottom dengan garis tipis
+				'left' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN] // Set border left dengan garis tipis
+			],
+			'fill' => [
+				'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID, // Set fill type sebagai solid fill
+				'startColor' => [
+					'argb' => 'FB6340' // Set nilai argb sebagai kode warna (contoh: warna abu-abu)
+				]
+			]
+
+		];
+
+		// Style untuk data empty
+		$style_empty_2 = [
+			'font' => [
+				'bold' => true,
+				'color' => ['rgb' => 'FFFFFF']
+
+			],
+			'alignment' => [
+				'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, // Set text jadi ditengah secara horizontal (center)
+				'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER // Set text jadi di tengah secara vertical (middle)
+			],
+			'borders' => [
+				'top' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN], // Set border top dengan garis tipis
+				'right' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN],  // Set border right dengan garis tipis
+				'bottom' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN], // Set border bottom dengan garis tipis
+				'left' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN] // Set border left dengan garis tipis
+			],
+			'fill' => [
+				'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID, // Set fill type sebagai solid fill
+				'startColor' => [
+					'argb' => 'F23D30'
+				]
+			]
+
+		];
+		// Buat sebuah variabel untuk menampung pengaturan style dari isi tabel
+		$style_row = [
+			'alignment' => [
+				'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER // Set text jadi di tengah secara vertical (middle)
+			],
+			'borders' => [
+				'top' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN], // Set border top dengan garis tipis
+				'right' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN],  // Set border right dengan garis tipis
+				'bottom' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN], // Set border bottom dengan garis tipis
+				'left' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN] // Set border left dengan garis tipis
+			]
+		];
+
+
+		$alpahbeth = range('A', 'Z');
+		$no = 1;
+		$no2 = 1;
+		for ($i = 0; $i < $total_row_1; $i++, $no2++) {
+			$sheet->setCellValue('A1', '#');
+			$sheet->getStyle('A1')->applyFromArray($style_col);
+			$sheet->setCellValue($alpahbeth[$no2] . $no, $row_1[1][$alpahbeth[$i]]);
+			$sheet->getStyle($alpahbeth[$no2] . $no)->applyFromArray($style_col);
+		}
+		$noo = 1;
+
+		for ($i = 0; $i < $total_row_2; $i++, $noo++) {
+			$sheet->setCellValue($alpahbeth[$total_row_1 + $noo] . $no, $row_2[1][$alpahbeth[$i]]);
+			$sheet->getStyle($alpahbeth[$total_row_1 + $noo] . $no)->applyFromArray($style_col);
+		}
+
+
+
+		$not_match_1 = [];
+		$not_match_2 = [];
+		$match_1 = [];
+		$match_2 = [];
+
+
+		// Validation if data is not matching
+		foreach ($row_1 as $rww1) {
+			$founded = false;
+			foreach ($row_2 as $rww2) {
+				if ($rww1[$unique_col_1] == $rww2[$unique_col_2]) {
+					$founded = true;
+					break;
+				}
+			}
+			if (!$founded) {
+				$not_match_1[] = $rww1;
+			} else {
+				$match_1[] = $rww1;
+			}
+		}
+
+		foreach ($row_2 as $rww2) {
+			$founded = false;
+			foreach ($row_1 as $rww1) {
+				if ($rww2[$unique_col_2] == $rww1[$unique_col_1]) {
+					$founded = true;
+					break;
+				}
+			}
+
+			if (!$founded) {
+				$not_match_2[] = $rww2;
+			} else {
+				$match_2[] = $rww2;
+			}
+		}
+
+		// Set value
+		$numrow = 2;
+		$no3 = 1;
+		$no4 = 1;
+
+
+
+		foreach ($row_1 as $rw1) {
+			foreach ($row_2 as $rw_2) {
+
+				if ($rw1[$unique_col_1] == $rw_2[$unique_col_2]) {
+
+
+					for ($i = 0; $i < $total_row_1; $i++, $no3++) {
+						$sheet->setCellValue('A' . $numrow, $numrow - 1)->getStyle('A' . $numrow)->applyFromArray($style_row)->getAlignment()->setHorizontal('center');
+						$cell = $alpahbeth[$no3] . $numrow;
+						$sheet->setCellValue($cell, $rw1[$alpahbeth[$i]]);
+						$sheet->getStyle($cell)->applyFromArray($style_row);
+						// $sheet->getStyle($alpahbeth[$unique_col_1] . $numrow)->applyFromArray($style_row);
+					}
+
+					for ($i = 0; $i < $total_row_2; $i++, $no4++) {
+
+						$cell2 = $alpahbeth[$total_row_1 + $no4] . $numrow;
+						$sheet->setCellValue($cell2, $rw_2[$alpahbeth[$i]]);
+						$sheet->getStyle($cell2)->applyFromArray($style_row);
+					}
+					$no4 = 1;
+					$no3 = 1;
+					$numrow++; // menambah nomor baris untuk data berikutnya
+				}
+			}
+		}
+
+
+
+		// merged cell
+		$sheet->mergeCells('A' . (count($match_1) + 3) . ':' . $alpahbeth[$total_row_1 + $total_row_2] . (count($match_1) + 3))->setCellValue('A' . (count($match_1) + 3), 'Data Not Match')->getStyle('A' . (count($match_1) + 3))->applyFromArray($style_empty)->getAlignment()->setHorizontal('center');
+		$sheet->mergeCells('A' . (count($match_1) + 5) . ':' . $alpahbeth[$total_row_1 + $total_row_2] . (count($match_1) + 5))->setCellValue('A' . (count($match_1) + 5), 'Table 1')->getStyle('A' . (count($match_1) + 5))->applyFromArray($style_empty_2)->getAlignment()->setHorizontal('center');
+
+		$numrow2 = 1;
+		$numrow3 = 2;
+		foreach ($not_match_1 as $nm1) {
+			for ($i = 0; $i < count($nm1); $i++) {
+
+				$cell3 = $alpahbeth[$i + 1] . count($match_1) + $numrow2 + 6;
+				$sheet->setCellValue($cell3, $nm1[$alpahbeth[$i]]);
+				$sheet->getStyle($cell3)->applyFromArray($style_row);
+			}
+			$numrow2++;
+		}
+
+		$sheet->mergeCells('A' . (count($match_1) + count($not_match_1)  + $numrow3 + 6) . ':' . $alpahbeth[$total_row_1 + $total_row_2] . (count($match_1) + count($not_match_1)  + $numrow3 + 6))->setCellValue('A' . (count($match_1) + count($not_match_1)  + $numrow3 + 6), 'Table 2')->getStyle('A' . (count($match_1) + count($not_match_1)  + $numrow3 + 6))->applyFromArray($style_empty_2)->getAlignment()->setHorizontal('center');
+
+
+		$numrow3 = 1;
+		foreach ($not_match_2 as $nm2) {
+			for ($i = 0; $i < count($nm2); $i++) {
+
+				$cell3 = $alpahbeth[$i + 1] . count($match_1) + count($not_match_1)  + $numrow3 + 9;
+				$sheet->setCellValue($cell3, $nm2[$alpahbeth[$i]]);
+				$sheet->getStyle($cell3)->applyFromArray($style_row);
+			}
+			$numrow3++;
+		}
+
+
+
+		$sheet->getDefaultRowDimension()->setRowHeight(-1);
+		$sheet->getDefaultColumnDimension()->setWidth(25);
+		// Set orientasi kertas jadi LANDSCAPE
+		$sheet->getPageSetup()->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
+		// Set judul file excel nya
+		$sheet->setTitle("Result-" . date('Y-m'));
+		// Proses file excel
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment; filename="Result"' . date('Y-m-d') . '.xlsx'); // Set nama file excel nya
+		header('Cache-Control: max-age=0');
+		$writer = new Xlsx($spreadsheet);
+		$writer->save('php://output');
+	}
+
+	public function parse_str($data)
+	{
+		parse_str($data, $output);
+		return $output;
 	}
 }
