@@ -15,6 +15,7 @@ class ExcelJoin extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->library(array('excel', 'session'));
+		date_default_timezone_set('Asia/Jakarta');
 
 		$this->load->library('form_validation');
 		$this->load->helper('form');
@@ -251,16 +252,15 @@ class ExcelJoin extends CI_Controller
 
 
 
-		// Set height semua kolom menjadi auto (mengikuti height isi dari kolommnya, jadi otomatis)
 		$sheet->getDefaultRowDimension()->setRowHeight(-1);
 		$sheet->getDefaultColumnDimension()->setWidth(25);
 		// Set orientasi kertas jadi LANDSCAPE
 		$sheet->getPageSetup()->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
 		// Set judul file excel nya
-		$sheet->setTitle("Laporan Data Siswa");
+		$sheet->setTitle("Result-" . date('Y-m'));
 		// Proses file excel
 		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-		header('Content-Disposition: attachment; filename="Data Siswa.xlsx"'); // Set nama file excel nya
+		header('Content-Disposition: attachment; filename="Result"' . date('Y-m-d') . '.xlsx'); // Set nama file excel nya
 		header('Cache-Control: max-age=0');
 		$writer = new Xlsx($spreadsheet);
 		$writer->save('php://output');
