@@ -96,7 +96,7 @@
 									<input type="text" name="col_unique_1" value="<?= $coll_unique_1; ?>" hidden>
 									<input type="text" name="col_unique_2" value="<?= $coll_unique_2; ?>" hidden>
 
-									<button type="submit" class="btn btn-primary">Export</button>
+									<button type="submit" class="btn btn-primary">Export to .xlsx</button>
 								</form>
 
 							</div>
@@ -109,8 +109,8 @@
 								</div>
 
 								<div class='text-warning text-center mt-3'>
-									<h5>Data tidak ditemukan!</h5>
-									<p>Maaf, data yang anda cari tidak ditemukan. Silahkan coba lagi.</p>
+									<h5>Sorry data not found</h5>
+									<p>Please check your file again</p>
 								</div>
 								<div class="text-center ">
 									<a class="btn btn-primary d-flex justify-content-center w-100" href="<?= base_url('pengentry/Coklit/insert_data') ?>">Kembali</a>
@@ -126,12 +126,6 @@
 
 												$alpahbeth = range('A', 'Z');
 												$no = 1;
-
-												var_dump($result_1);
-
-
-
-
 
 												echo '<th class="text-uppercase text-xxs font-weight-bolder bg-primary text-white">No</th>';
 
