@@ -1,6 +1,10 @@
 <?php
 
 use FontLib\Table\Type\post;
+// Include librari PhpSpreadsheet
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
@@ -147,9 +151,124 @@ class ExcelJoin extends CI_Controller
 	}
 
 
-	public function export($data1, $data2)
+	public function export()
 	{
 
-		var_dump($data1);
+		$alpahbeth = range('A', 'Z');
+		$total_row_1 = $this->input->post('total_row_1');
+		$row_1 = $this->parse_str($this->input->post('data'));
+		$total_row_2 = $this->input->post('total_row_2');
+		$row_2 = $this->parse_str($this->input->post('data2'));
+		$unique_col_1 = $this->input->post('col_unique_1');
+		$unique_col_2 = $this->input->post('col_unique_2');
+
+
+
+		$spreadsheet = new Spreadsheet();
+		$sheet = $spreadsheet->getActiveSheet();
+		// Buat sebuah variabel untuk menampung pengaturan style dari header tabel
+		$style_col = [
+			'font' => [
+				'bold' => true,
+				'color' => ['rgb' => 'FFFFFF']
+
+			], // Set font nya jadi bold
+			'alignment' => [
+				'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, // Set text jadi ditengah secara horizontal (center)
+				'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER // Set text jadi di tengah secara vertical (middle)
+			],
+			'borders' => [
+				'top' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN], // Set border top dengan garis tipis
+				'right' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN],  // Set border right dengan garis tipis
+				'bottom' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN], // Set border bottom dengan garis tipis
+				'left' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN] // Set border left dengan garis tipis
+			],
+			'fill' => [
+				'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID, // Set fill type sebagai solid fill
+				'startColor' => [
+					'argb' => '217346' // Set nilai argb sebagai kode warna (contoh: warna abu-abu)
+				]
+			]
+
+		];
+		// Buat sebuah variabel untuk menampung pengaturan style dari isi tabel
+		$style_row = [
+			'alignment' => [
+				'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER // Set text jadi di tengah secara vertical (middle)
+			],
+			'borders' => [
+				'top' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN], // Set border top dengan garis tipis
+				'right' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN],  // Set border right dengan garis tipis
+				'bottom' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN], // Set border bottom dengan garis tipis
+				'left' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN] // Set border left dengan garis tipis
+			]
+		];
+
+
+		$alpahbeth = range('A', 'Z');
+		$no = 1;
+		$no2 = 1;
+		for ($i = 0; $i < $total_row_1; $i++, $no2++) {
+			$sheet->setCellValue('A1', '#');
+			$sheet->getStyle('A1')->applyFromArray($style_col);
+			$sheet->setCellValue($alpahbeth[$no2] . $no, $row_1[1][$alpahbeth[$i]]);
+			$sheet->getStyle($alpahbeth[$no2] . $no)->applyFromArray($style_col);
+		}
+		$noo = 1;
+
+		for ($i = 0; $i < $total_row_2; $i++, $noo++) {
+			$sheet->setCellValue($alpahbeth[$total_row_1 + $noo] . $no, $row_2[1][$alpahbeth[$i]]);
+			$sheet->getStyle($alpahbeth[$total_row_1 + $noo] . $no)->applyFromArray($style_col);
+		}
+
+		$numrow = 2;
+		$no3 = 1;
+		$no4 = 1;
+
+		foreach ($row_1 as $rw1) {
+			foreach ($row_2 as $rw_2) {
+
+				if ($rw1[$unique_col_1] == $rw_2[$unique_col_2]) {
+					for ($i = 0; $i < $total_row_1; $i++, $no3++) {
+						$sheet->setCellValue('A' . $numrow, $numrow - 1)->getStyle('A' . $numrow)->applyFromArray($style_row)->getAlignment()->setHorizontal('center');
+						$cell = $alpahbeth[$no3] . $numrow;
+						$sheet->setCellValue($cell, $rw1[$alpahbeth[$i]]);
+						$sheet->getStyle($cell)->applyFromArray($style_row);
+					}
+
+					for ($i = 0; $i < $total_row_2; $i++, $no4++) {
+
+						$cell2 = $alpahbeth[$total_row_1 + $no4] . $numrow;
+						$sheet->setCellValue($cell2, $rw_2[$alpahbeth[$i]]);
+						$sheet->getStyle($cell2)->applyFromArray($style_row);
+					}
+					$no4 = 1;
+					$no3 = 1; // reset nomor kolom pada file excel menjadi 0
+					$numrow++; // menambah nomor baris untuk data berikutnya
+				}
+			}
+		}
+
+
+
+		// Set height semua kolom menjadi auto (mengikuti height isi dari kolommnya, jadi otomatis)
+		$sheet->getDefaultRowDimension()->setRowHeight(-1);
+		$sheet->getDefaultColumnDimension()->setWidth(25);
+		// Set orientasi kertas jadi LANDSCAPE
+		$sheet->getPageSetup()->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
+		// Set judul file excel nya
+		$sheet->setTitle("Laporan Data Siswa");
+		// Proses file excel
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment; filename="Data Siswa.xlsx"'); // Set nama file excel nya
+		header('Cache-Control: max-age=0');
+		$writer = new Xlsx($spreadsheet);
+		$writer->save('php://output');
+	}
+
+	public function parse_str($data)
+	{
+		parse_str($data, $output);
+		return $output;
 	}
 }

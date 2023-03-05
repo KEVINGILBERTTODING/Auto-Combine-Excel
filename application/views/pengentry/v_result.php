@@ -68,16 +68,37 @@
 						</div>
 
 						<?php
-						$array1 = http_build_query(array('result_1' => $result_1));
-						$array2 = http_build_query(array('result_2' => $result_2));
-						var_dump($array1);
+						$query_string = http_build_query($result_1);
+						$query_string2 = http_build_query($result_2);
+
+
+
+						$count = count(array_filter($result_1[1], function ($value) {
+							return $value !== null;
+						}));
+
+						$count2 = count(array_filter($result_2[1], function ($value) {
+							return $value !== null;
+						}));
+
+						// var_dump($data);
 
 						?>
 
 
 						<div class="container-md containerku">
 							<div class="d-flex justify-content-end">
-								<a href="<?= $url; ?>" class="btn btn-primary" target="_blank">Export to Excel</a>
+								<form action="<?= base_url('ExcelJoin/export'); ?>" method="post" target="_blank">
+									<input type="text" name="data" value="<?= $query_string; ?>" hidden>
+									<input type="text" name="total_row_1" value="<?= $count; ?>" hidden>
+									<input type="text" name="data2" value="<?= $query_string2; ?>" hidden>
+									<input type="text" name="total_row_2" value="<?= $count2; ?>" hidden>
+									<input type="text" name="col_unique_1" value="<?= $coll_unique_1; ?>" hidden>
+									<input type="text" name="col_unique_2" value="<?= $coll_unique_2; ?>" hidden>
+
+									<button type="submit" class="btn btn-primary">Export</button>
+								</form>
+
 							</div>
 							<?php
 
@@ -105,6 +126,12 @@
 
 												$alpahbeth = range('A', 'Z');
 												$no = 1;
+
+												var_dump($result_1);
+
+
+
+
 
 												echo '<th class="text-uppercase text-xxs font-weight-bolder bg-primary text-white">No</th>';
 
